@@ -1,9 +1,25 @@
 import Product, { ProductInput, ProductOutput } from '../../api/models/ProductsModels'
+import { Query } from '../../shared/types/query';
 import { AppError } from '../../utils/AppError';
+import { getPagination } from '../../utils/getPagination';
+import { Op } from 'sequelize';
 
-export const getAll = async (): Promise<ProductOutput[]> =>{
-    return await Product.findAll({
-        include:{all:true}
+export const getAll = async (quantityInStock:string, quantityInStockMin:string, quantityInStockTop:string, query:Query): Promise<{rows:ProductOutput[], count:number}> =>{
+    let { size, page, sort, order, ...filters } = query;
+    const id="productCode";
+    const {...pagination}=getPagination(id,query);
+
+    if(!quantityInStock) quantityInStock = "";
+    if(!quantityInStockMin) quantityInStockMin = "0";
+    if(!quantityInStockTop) quantityInStockTop = "100000";
+
+    return await Product.findAndCountAll({
+        where:{
+            quantityInStock:{[Op.between]:[parseInt(quantityInStockMin),parseInt(quantityInStockTop)]},
+            ...filters
+        },
+        ...pagination,
+        // include:{all:true}
     });
 }
 

@@ -10,9 +10,9 @@ export const getAll = async (customerName:string, creditLimit:string, creditLimi
     const {...pagination}=getPagination(id,query);
 
     if(!customerName) customerName = "";
-    if (!creditLimit) creditLimit ="";
-    if(!creditLimitMin) creditLimitMin="";
-    if(!creditLimitTop) creditLimitTop="";
+    if(!creditLimit) creditLimit ="";
+    if(!creditLimitMin) creditLimitMin="500";
+    if(!creditLimitTop) creditLimitTop="150000";
 
     return await Customer.findAndCountAll({
         where:{

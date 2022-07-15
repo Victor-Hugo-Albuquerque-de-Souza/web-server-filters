@@ -10,8 +10,8 @@ export const getAll = async (orderDate:string, dateMin:string, dateMax:string, q
     const {...pagination}=getPagination(id,query);
 
     if(!orderDate) orderDate = "";
-    if(!dateMin) dateMin="";
-    if(!dateMax) dateMax="";
+    if(!dateMin) dateMin="1990-01-06 00:00:00";
+    if(!dateMax) dateMax="2055-01-06 00:00:00";
 
     return await Order.findAndCountAll({
         where:{

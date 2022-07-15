@@ -1,8 +1,9 @@
 import * as repository from '../database/repositories/ProductsRepository'
 import { ProductInput, ProductOutput } from "../api/models/ProductsModels"
+import { Query } from '../shared/types/query';
 
-export const getAll = async (): Promise<ProductOutput[]> => {
-    return await repository.getAll();
+export const getAll = async (quantityInStock:string, quantityInStockMin:string, quantityInStockTop:string, query:Query):  Promise<{rows:ProductOutput[], count:number}> => {
+    return await repository.getAll(quantityInStock, quantityInStockMin, quantityInStockTop, query);
 }
 
 export const getById = async (productCode:string): Promise<ProductOutput>=> {

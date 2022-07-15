@@ -2,7 +2,20 @@ import {Router, Request, Response, NextFunction} from 'express';
 import * as service from '../../services/ProductsService'
 
 export const getAll = async (req:Request, res: Response)=>{
-    res.send(await service.getAll());
+    const {size, page, sort, order, quantityInStock, quantityInStockMin , quantityInStockTop, ...filters}=req.query;
+    
+    const query = {
+        size: parseInt(size as string),
+        page: parseInt(page as string),
+        sort: sort as string,
+        order: order as string,
+        ...filters    
+    }
+
+    res.send(await service.getAll(quantityInStock as string,
+         quantityInStockMin as string,
+         quantityInStockTop as string,
+         query));
 };
 
 export const getById = async (req:Request, res: Response, next:NextFunction)=>{
